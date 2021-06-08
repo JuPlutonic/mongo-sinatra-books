@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'sinatra'
 require 'mongoid'
 
@@ -18,7 +19,7 @@ class Book
   validates :isbn, presence: true
 
   index({ title: 'text' })
-  index({ isbn:1 }, { unique: true, name: "isbn_index" })
+  index({ isbn: 1 }, { unique: true, name: "isbn_index" })
 end
 
 # Endpoints

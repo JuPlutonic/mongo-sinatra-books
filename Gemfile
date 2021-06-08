@@ -40,7 +40,7 @@ group :test do
   # gem 'mocha'
   # rspec-3.9.0 (http://github.com/rspec)
   # gem 'rspec'
-  # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests. (https://relishapp.com/vcr/vcr/docs)
+  # Record your test suite's HTTP interactions and replay`em for fast, deterministic, accurate tests. (https://relishapp.com/vcr/vcr/docs)
   # gem 'vcr'
   # Library for stubbing HTTP requests in Ruby. (http://github.com/bblimke/webmock)
   # gem 'webmock'
