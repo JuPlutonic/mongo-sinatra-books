@@ -1,0 +1,5 @@
+# don't use this conf location, 'cause I changed brew formulas `mongodb-database-tool`
+#   and `mongodb-community` from mongodb/brew to point out to linux installers:
+mongo: mongod --config /home/linuxbrew/.linuxbrew/etc/mongod.conf # --fork
+app: bundle exec ruby server.rb
+tmuxinator: /home/linuxbrew/.linuxbrew/bin/tmuxinator start mongo-sinatra-books
