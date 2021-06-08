@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+ENV['PORT'] ||= "5100"
+ENV['HOST'] ||= "localhost"
+require 'iodine'
+
 require 'sinatra'
 require 'mongoid'
 
@@ -26,3 +30,11 @@ end
 get '/' do
   'Welcome to BookList!'
 end
+
+# Handler: Sinatra
+Iodine.listen service: :http, handler: Sinatra::Application
+# For static file service, we only need a single worker and a single thread
+Iodine.workers = 1 # negative value, will imply it to use half of your CPU cores
+Iodine.threads = 1 # this value in opposite must be always positive
+Iodine.verbosity = 5 # debugging
+Iodine.start

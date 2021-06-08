@@ -4,6 +4,9 @@ source 'https://rubygems.org'
 
 ruby '2.7.3'
 
+# iodine - a fast HTTP / Websocket Server with Pub/Sub support, optimized for Ruby MRI on Linux / BSD (https://github.com/boazsegev/iodine)
+gem 'iodine', '~>0.7'
+
 # Classy web-development dressed in a DSL (http://sinatrarb.com/)
 gem 'sinatra'
 
