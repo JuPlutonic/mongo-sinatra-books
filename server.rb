@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
+# For static microservice, we only need a single worker and a single thread
+IODINE_WORKER_COUNT = 1 # negative value, will imply it to use half of your CPU cores
+IODINE_THREAD_COUNT = 1 # this value in opposite must be always positive
+IODINE_DEBUG_VERBOSITY = 4 # =default, don't bothering when work in pry-console
+IODINE_APP_HANDLER = Sinatra::Application # not `App` -- Rackup file config.ru
 ENV['PORT'] ||= '5100'
 ENV['HOST'] ||= 'localhost'
+
 require 'iodine'
 
 require 'sinatra'
@@ -69,10 +75,8 @@ namespace '/api/v1' do
   end
 end
 
-# Handler: Sinatra
-Iodine.listen service: :http, handler: Sinatra::Application
-# For static file service, we only need a single worker and a single thread
-Iodine.workers = 1 # negative value, will imply it to use half of your CPU cores
-Iodine.threads = 1 # this value in opposite must be always positive
-Iodine.verbosity = 5 # debugging
+Iodine.listen service: :http, handler: IODINE_APP_HANDLER
+Iodine.workers = IODINE_WORKER_COUNT
+Iodine.threads = IODINE_THREAD_COUNT
+Iodine.verbosity = IODINE_DEBUG_VERBOSITY
 Iodine.start
