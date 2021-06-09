@@ -45,7 +45,7 @@ class BookSerializer
     @book = book
   end
 
-  # So, where aren't appear Mongo-relatad _id--{oid}-s
+  # So, where aren't appear Mongo-related _id--{oid}-s
   def as_json(*)
     data = {
       id: @book.id.to_s,
@@ -66,14 +66,13 @@ namespace '/api/v1' do
   end
 
   helpers do
-    def halt_if_not_found!(id)
-      book = Book.where(id: id).first
-      # http 404: not_found
-      halt(404, { message: 'Book Not Found' }.to_json) unless book
+    def halt_if_not_found!
+      # HTTP 404: not_found
+      (@kook = Book.where(id: params[:id]).first) || halt(404, { message: 'Book Not Found' }.to_json)
     end
 
-    def serialize(book)
-      BookSerializer.new(book).to_json
+    def serialize
+      BookSerializer.new(@book).to_json
     end
   end
 
@@ -89,9 +88,9 @@ namespace '/api/v1' do
     books.map { |book| BookSerializer.new(book) }.to_json
   end
 
-  get '/books/:id' do |id|
-    halt_if_not_found!(id)
-    serialize(book)
+  get '/books/:id' do
+    halt_if_not_found!
+    serialize
   end
 end
 
