@@ -60,12 +60,12 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - edt:
+        - edt_mns:
           - nvim +NERDTreeToggle +NERDTreeVCS
-        - nest_console:
-          - rbenv exec bundle exec pry -exec 'load "server.rb"'
-          # - tdd:
-          #   - bundle exec guard
-  - proc:
+        - dbg_mns:
+          - rbenv exec bundle exec pry -I . --exec 'load "server.rb"'
+        - tdd_mns:
+          - bundle exec guard
+  - mns_app:
     - overmind connect -s ~/optimiz/mongo-sinatra-books/tmp/dev.sock app
     # n/w: # - overmind -s "0.0.0.0:4321" -S "tcp" app

@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
-ENV['PORT'] ||= "5100"
-ENV['HOST'] ||= "localhost"
+ENV['PORT'] ||= '5100'
+ENV['HOST'] ||= 'localhost'
 require 'iodine'
 
 require 'sinatra'
-require "sinatra/namespace"
+require 'sinatra/namespace'
+require 'pry'
 require 'mongoid'
 
 # DB Setup
@@ -24,11 +25,30 @@ class Book
   validates :isbn, presence: true
 
   index({ title: 'text' })
-  index({ isbn: 1 }, { unique: true, name: "isbn_index" })
+  index({ isbn: 1 }, { unique: true, name: 'isbn_index' })
 
   scope :title, ->(title) { where(title: /^#{title}/) }
   scope :author, ->(author) { where(author: author) }
   scope :isbn, ->(isbn) { where(isbn: isbn) }
+end
+
+# Serializers
+class BookSerializer
+  def initialize(book)
+    @book = book
+  end
+
+  # So, where aren't appear Mongo-relatad _id--{oid}'s
+  def as_json(*)
+    data = {
+      id: @book.id.to_s,
+      title: @book.title,
+      author: @book.author,
+      isbn: @book.isbn
+    }
+
+    data[:errors] = _nempty_ary if (_nempty_ary = @book.errors).any?
+  end
 end
 
 # Endpoints
@@ -44,7 +64,8 @@ namespace '/api/v1' do
       books = books.send(filter, params[filter]) if params[filter]
     end
 
-    books.to_json
+    # We just change this from books.to_json to the following
+    books.map { |book| BookSerializer.new(book) }.to_json
   end
 end
 

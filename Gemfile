@@ -24,16 +24,16 @@ group :development, :test do
   # Loads environment variables from `.env`. (https://github.com/bkeepers/dotenv)
   gem 'dotenv', '~> 2.4'
   # Guard keeps an eye on your file modifications (http://guardgem.org)
-  # gem 'guard'
+  gem 'guard'
   # Shotgun-like Guard for Rack apps (http://github.com/rchampourlier/guard-shotgun)
-  # gem 'guard-shotgun'
+  gem 'guard-shotgun'
   # Fast debugging with Pry. (https://github.com/deivid-rodriguez/pry-byebug)
   gem 'pry-byebug'
   # C-x C-e to invoke an editor on the current pry (or irb) line (https://github.com/tpope/pry-editline)
   gem 'pry-editline' # disregard pry-editline warning at pry's start
   # Walk the stack in a Pry session (https://github.com/pry/pry-stack_explorer)
   gem 'pry-stack_explorer'
-  # Try to run with Guard or use replacement: `guard-shotgun`, use newer gem 'shotgun', github: 'megothss/shotgun'
+  # Try to run with Guard or replace it with gem `guard-shotgun`, use newer gem 'shotgun', github: 'megothss/shotgun'
   # Reloading Rack development server (https://github.com/rtomayko/shotgun)
   # gem 'shotgun', platforms: :ruby
 end

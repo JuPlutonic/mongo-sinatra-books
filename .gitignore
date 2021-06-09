@@ -186,5 +186,4 @@ core
 .rubocop_todo.yml
 
 # Misc. for current project
-Guardfile
 !/tmp/.keep
