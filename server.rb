@@ -25,6 +25,10 @@ class Book
 
   index({ title: 'text' })
   index({ isbn: 1 }, { unique: true, name: "isbn_index" })
+
+  scope :title, ->(title) { where(title: /^#{title}/) }
+  scope :author, ->(author) { where(author: author) }
+  scope :isbn, ->(isbn) { where(isbn: isbn) }
 end
 
 # Endpoints
@@ -34,7 +38,13 @@ namespace '/api/v1' do
   end
 
   get '/books' do
-    Book.all.to_json
+    books = Book.all
+
+    %i[title isbn author].each do |filter|
+      books = books.send(filter, params[filter]) if params[filter]
+    end
+
+    books.to_json
   end
 end
 

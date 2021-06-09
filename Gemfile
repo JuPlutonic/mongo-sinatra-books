@@ -4,17 +4,19 @@ source 'https://rubygems.org'
 
 ruby '2.7.3'
 
+##==presentation tier http layer
 # iodine - a fast HTTP / Websocket Server with Pub/Sub support, optimized for Ruby MRI on Linux / BSD (https://github.com/boazsegev/iodine)
 gem 'iodine', '~>0.7'
 
+##======logic tier http layer
 # Classy web-development dressed in a DSL (http://sinatrarb.com/)
 gem 'sinatra'
 
-# transport layer
+##======transport layer api endpoints
 # Collection of useful Sinatra extensions (http://sinatrarb.com/contrib/)
 gem 'sinatra-contrib'
 
-# db layer
+##======persistance tier db layer
 # Elegant Persistence in Ruby for MongoDB. (https://mongoid.org)
 gem 'mongoid'
 
