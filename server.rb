@@ -5,6 +5,7 @@ ENV['HOST'] ||= "localhost"
 require 'iodine'
 
 require 'sinatra'
+require "sinatra/namespace"
 require 'mongoid'
 
 # DB Setup
@@ -27,8 +28,14 @@ class Book
 end
 
 # Endpoints
-get '/' do
-  'Welcome to BookList!'
+namespace '/api/v1' do
+  before do
+    content_type 'application/json'
+  end
+
+  get '/books' do
+    Book.all.to_json
+  end
 end
 
 # Handler: Sinatra
