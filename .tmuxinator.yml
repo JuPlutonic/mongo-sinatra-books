@@ -67,5 +67,5 @@ windows:
         - tdd_mns:
           - bundle exec guard
   - mns_app:
-    - overmind connect -s ~/optimiz/mongo-sinatra-books/tmp/dev.sock app
+    - overmind connect -s ~/optimiz/mongo-sinatra-books/tmp/dev.sock mns_app
     # n/w: # - overmind -s "0.0.0.0:4321" -S "tcp" app
