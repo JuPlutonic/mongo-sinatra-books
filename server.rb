@@ -45,7 +45,7 @@ class BookSerializer
     @book = book
   end
 
-  # So, where aren't appear Mongo-relatad _id--{oid}'s
+  # So, where aren't appear Mongo-relatad _id--{oid}-s
   def as_json(*)
     data = {
       id: @book.id.to_s,
@@ -55,15 +55,29 @@ class BookSerializer
     }
 
     data[:errors] = _nempty_ary if (_nempty_ary = @book.errors).any?
+    data
   end
 end
 
-# Endpoints
+# Endpoints: <index> <show> <create> <update> <delete>
 namespace '/api/v1' do
   before do
     content_type 'application/json'
   end
 
+  helpers do
+    def halt_if_not_found!(id)
+      book = Book.where(id: id).first
+      # http 404: not_found
+      halt(404, { message: 'Book Not Found' }.to_json) unless book
+    end
+
+    def serialize(book)
+      BookSerializer.new(book).to_json
+    end
+  end
+
+  ###
   get '/books' do
     books = Book.all
 
@@ -73,6 +87,11 @@ namespace '/api/v1' do
 
     # We just change this from books.to_json to the following
     books.map { |book| BookSerializer.new(book) }.to_json
+  end
+
+  get '/books/:id' do |id|
+    halt_if_not_found!(id)
+    serialize(book)
   end
 end
 
