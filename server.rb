@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-ENV['PORT'] ||= '5100'
-ENV['HOST'] ||= 'localhost'
-
+ENV['HOST'] ||= '5100'
 require 'iodine'
+# For development:
+Iodine::DEFAULT_SETTINGS['address'] ||= 'localhost'
 # For static microservice, we only need a single worker and a single thread
 IODINE_WORKER_COUNT = 1 # negative value, will imply it to use half of your CPU cores
 IODINE_THREAD_COUNT = 1 # this value in opposite must be always positive
@@ -11,6 +11,8 @@ IODINE_DEBUG_VERBOSITY = 4 # =default, don't bothering when work in pry-console
 
 require 'sinatra'
 IODINE_APP_HANDLER = Sinatra::Application # not `App` -- Rackup file config.ru
+# Sinatra run for default in development env with `localhost` server name
+# set :bind, 'localhost'
 
 require 'sinatra/namespace'
 require 'pry'
@@ -66,9 +68,9 @@ namespace '/api/v1' do
   end
 
   helpers do
-    def halt_if_not_found!
-      # HTTP 404: not_found
-      (@kook = Book.where(id: params[:id]).first) || halt(404, { message: 'Book Not Found' }.to_json)
+    def set_ivar_books_or_halt!
+      # Sinatra::Base::HTTP_STATUS_CODES 404=>"Not Found"
+      (@book = Book.where(id: params[:id]).try(:first)) || halt(404, { message: 'Book Not Found' }.to_json)
     end
 
     def serialize
@@ -89,7 +91,7 @@ namespace '/api/v1' do
   end
 
   get '/books/:id' do
-    halt_if_not_found!
+    set_ivar_books_or_halt!
     serialize
   end
 end

@@ -12,7 +12,7 @@ gem 'iodine', '~>0.7'
 # Classy web-development dressed in a DSL (http://sinatrarb.com/)
 gem 'sinatra'
 
-##======transport layer api endpoints
+##======transport layer: sinatra/namespaces from
 # Collection of useful Sinatra extensions (http://sinatrarb.com/contrib/)
 gem 'sinatra-contrib'
 

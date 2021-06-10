@@ -13,12 +13,12 @@ root: ~/optimiz/mongo-sinatra-books
 # Project hooks
 
 # Runs on project start, always
-on_project_start: >
-  mkdir -p ~/optimiz/mongo-sinatra-books/tmp
+# on_project_start: command
 
 # Run on project start, the first time
-# on_project_first_start: command
-
+on_project_first_start: >
+  mkdir -p ~/optimiz/mongo-sinatra-books/tmp
+#:
 # Run on project start, after the first time
 # on_project_restart: command
 
@@ -33,11 +33,7 @@ on_project_start: >
 pre_window: >
   promote ~/optimiz/mongo-sinatra-books/.env.development &&
   rbenv global 2.7.3
-
-# pre_window: >
-#   prepend_to PATH /home/alessio/.anyenv/envs/rbenv/shims &&
-#   prepend_to PATH /home/alessio/.anyenv/envs/rbenv/bin &&
-
+#
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
 
@@ -54,6 +50,16 @@ pre_window: >
 # attach: false
 
 windows:
+  - mns_doc:
+      layout:  main-vertical
+      panes:
+        - org_mns:
+          - nvim +e ~/Documents/mns.dotoo
+        - dbg_mns:
+          - rbenv exec bundle exec pry -I . --exec 'load "server.rb"'
+  - mns_app:
+    - overmind connect -s ~/optimiz/mongo-sinatra-books/tmp/dev.sock mns_app
+    # (n/w: - overmind -s "0.0.0.0:4321" -S "tcp" mns_app)
   - wrk:
       layout: main-vertical
       # Synchronize all panes of this window, can be enabled before or after the pane commands run.
@@ -62,10 +68,5 @@ windows:
       panes:
         - edt_mns:
           - nvim +NERDTreeToggle +NERDTreeVCS
-        - dbg_mns:
-          - rbenv exec bundle exec pry -I . --exec 'load "server.rb"'
         - tdd_mns:
           - bundle exec guard
-  - mns_app:
-    - overmind connect -s ~/optimiz/mongo-sinatra-books/tmp/dev.sock mns_app
-    # n/w: # - overmind -s "0.0.0.0:4321" -S "tcp" app

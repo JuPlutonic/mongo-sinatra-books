@@ -19,6 +19,6 @@
 
 guard 'shotgun' do
   watch('server.rb')
-  callback(:run_on_change_begin){ `overmind r -s "$(pwd)"/tmp/dev.sock app` }
-  callback(:run_on_change_begin){ `overmind r -s "$(pwd)"/tmp/dev.sock app` }
+  callback(:run_on_change_begin){ `overmind r -s "$(pwd)"/tmp/dev.sock mns_app` }
+  callback(:run_on_change_begin){ `overmind r -s "$(pwd)"/tmp/dev.sock mns_app` }
 end
