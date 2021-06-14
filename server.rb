@@ -69,12 +69,23 @@ namespace '/api/v1' do
 
   helpers do
     def set_ivar_books_or_halt!
-      # Sinatra::Base::HTTP_STATUS_CODES 404=>"Not Found"
+      # 404=>"Not Found"
       (@book = Book.where(id: params[:id]).try(:first)) || halt(404, { message: 'Book Not Found' }.to_json)
     end
 
     def serialize
       BookSerializer.new(@book).to_json
+    end
+
+    def base_url
+      @base_url ||= "#{request.env['rack.url_scheme']}://{request.env['HTTP_HOST']}"
+    end
+
+    def parse_or_halt!
+      @book = Book.new(JSON.parse(request.body.read))
+    rescue StandardError
+      # 400=>"Bad Request"
+      halt 400, { message: 'Invalid JSON' }.to_json
     end
   end
 
@@ -93,6 +104,15 @@ namespace '/api/v1' do
   get '/books/:id' do
     set_ivar_books_or_halt!
     serialize
+  end
+
+  post '/books' do
+    parse_or_halt!
+    halt 422, serialize unless @book.save # 422=>"Unprocessable Entity"
+
+    response.headers['Location'] = "#{base_url}/api/v1/books/#{@book.id}"
+    # 201=>"Created"
+    status 201
   end
 end
 
