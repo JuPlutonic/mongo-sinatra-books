@@ -61,16 +61,16 @@ class BookSerializer
   end
 end
 
-# Endpoints: <index> <show> <create> <update> <delete>
+# Endpoints like CRUD (<index> <show> <create> <update> <delete>) but presented by HTTP verbs:
 namespace '/api/v1' do
   before do
     content_type 'application/json'
   end
 
   helpers do
-    def set_ivar_books_or_halt!
-      # 404=>"Not Found"
+    def set_ivar_book_or_halt!
       (@book = Book.where(id: params[:id]).try(:first)) || halt(404, { message: 'Book Not Found' }.to_json)
+      # 404=>"Not Found" (Sinatra::Base::HTTP_STATUS_CODES)
     end
 
     def serialize
@@ -81,8 +81,8 @@ namespace '/api/v1' do
       @base_url ||= "#{request.env['rack.url_scheme']}://{request.env['HTTP_HOST']}"
     end
 
-    def parse_or_halt!
-      @book = Book.new(JSON.parse(request.body.read))
+    def parse_json_or_halt!
+      JSON.parse(request.body.read)
     rescue StandardError
       # 400=>"Bad Request"
       halt 400, { message: 'Invalid JSON' }.to_json
@@ -102,17 +102,33 @@ namespace '/api/v1' do
   end
 
   get '/books/:id' do
-    set_ivar_books_or_halt!
+    set_ivar_book_or_halt!
     serialize
   end
 
   post '/books' do
-    parse_or_halt!
-    halt 422, serialize unless @book.save # 422=>"Unprocessable Entity"
+    @book = Book.new(parse_json_or_halt!)
+    halt 422, serialize unless @book.save
+    # 422=>"Unprocessable Entity"
 
     response.headers['Location'] = "#{base_url}/api/v1/books/#{@book.id}"
     # 201=>"Created"
     status 201
+  end
+
+  patch '/books/:id' do
+    set_ivar_book_or_halt!
+    halt 422, serialize unless @book.update_attributes(parse_json_or_halt!)
+    # 422=>"Unprocessable Entity"
+
+    serialize
+  end
+
+  delete '/books/:id' do
+    set_ivar_book_or_halt!
+    @book.destroy
+    # 204=>"No Content"
+    status 204
   end
 end
 
