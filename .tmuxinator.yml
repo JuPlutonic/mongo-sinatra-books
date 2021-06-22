@@ -69,4 +69,4 @@ windows:
         - edt_mns:
           - nvim +NERDTreeToggle +NERDTreeVCS
         - tdd_mns:
-          - bundle exec guard
+          - bundle exec env RACK_ENV=test guard

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ENV['HOST'] ||= '5100'
+ENV['PORT'] ||= '5100'
 require 'iodine'
 # For development:
 Iodine::DEFAULT_SETTINGS['address'] ||= 'localhost'
@@ -11,6 +11,7 @@ IODINE_DEBUG_VERBOSITY = 4 # =default, don't bothering when work in pry-console
 
 require 'sinatra'
 IODINE_APP_HANDLER = Sinatra::Application # not `App` -- Rackup file config.ru
+
 # Sinatra run for default in development env with `localhost` server name
 # set :bind, 'localhost'
 
@@ -61,7 +62,7 @@ class BookSerializer
   end
 end
 
-# Endpoints like CRUD (<index> <show> <create> <update> <delete>) but presented by HTTP verbs:
+# Endpoints, like CRUD (<index> <show> <create> <update> <delete>) but presented by HTTP verbs:
 namespace '/api/v1' do
   before do
     content_type 'application/json'
@@ -131,9 +132,10 @@ namespace '/api/v1' do
     status 204
   end
 end
-
-Iodine.listen service: :http, handler: IODINE_APP_HANDLER
-Iodine.workers = IODINE_WORKER_COUNT
-Iodine.threads = IODINE_THREAD_COUNT
-Iodine.verbosity = IODINE_DEBUG_VERBOSITY
-Iodine.start
+if ENV['RACK_ENV'] != 'test'
+  Iodine.listen service: :http, handler: IODINE_APP_HANDLER unless Pry.instance_variable_get(:@cli)
+  Iodine.workers = IODINE_WORKER_COUNT
+  Iodine.threads = IODINE_THREAD_COUNT
+  Iodine.verbosity = IODINE_DEBUG_VERBOSITY
+  Pry.instance_variable_get(:@cli) || Iodine.start
+end

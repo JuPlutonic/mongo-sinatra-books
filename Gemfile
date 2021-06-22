@@ -20,6 +20,13 @@ gem 'sinatra-contrib'
 # Elegant Persistence in Ruby for MongoDB. (https://mongoid.org)
 gem 'mongoid'
 
+group :development do
+  # C-x C-e to invoke an editor on the current pry (or irb) line (https://github.com/tpope/pry-editline)
+  gem 'pry-editline', require: false, path: '~/optimiz/gems/pry-editline'
+  # Guard gem for RSpec (https://github.com/guard/guard-rspec)
+  gem 'guard-rspec', require: false
+end
+
 group :development, :test do
   # Loads environment variables from `.env`. (https://github.com/bkeepers/dotenv)
   gem 'dotenv', '~> 2.4'
@@ -29,8 +36,6 @@ group :development, :test do
   gem 'guard-shotgun'
   # Fast debugging with Pry. (https://github.com/deivid-rodriguez/pry-byebug)
   gem 'pry-byebug'
-  # C-x C-e to invoke an editor on the current pry (or irb) line (https://github.com/tpope/pry-editline)
-  gem 'pry-editline' # disregard pry-editline warning at pry's start
   # Walk the stack in a Pry session (https://github.com/pry/pry-stack_explorer)
   gem 'pry-stack_explorer'
   # Try to run with Guard or replace it with gem `guard-shotgun`, use newer gem 'shotgun', github: 'megothss/shotgun'
@@ -42,11 +47,13 @@ group :test do
   # Capybara aims to simplify the process of integration testing Rack applications, such as Rails, Sinatra or Merb (https://github.com/teamcapybara/capybara)
   # gem 'capybara'
   # Mocking and stubbing library (https://mocha.jamesmead.org)
-  # gem 'mocha'
+  gem 'mocha'
+  # Simple testing API built on Rack (http://github.com/rack-test/rack-test)
+  gem 'rack-test'
   # rspec-3.9.0 (http://github.com/rspec)
-  # gem 'rspec'
+  gem 'rspec'
   # Record your test suite's HTTP interactions and replay`em for fast, deterministic, accurate tests. (https://relishapp.com/vcr/vcr/docs)
   # gem 'vcr'
   # Library for stubbing HTTP requests in Ruby. (http://github.com/bblimke/webmock)
-  # gem 'webmock'
+  gem 'webmock'
 end
