@@ -56,8 +56,8 @@ class BookSerializer
       author: @book.author,
       isbn: @book.isbn
     }
-
-    data[:errors] = _nempty_ary if (_nempty_ary = @book.errors).any?
+    book_err_ary = @book.errors
+    data[:errors] = book_err_ary if book_err_ary.any?
     data
   end
 end
@@ -133,7 +133,7 @@ namespace '/api/v1' do
   end
 end
 if ENV['RACK_ENV'] != 'test'
-  Iodine.listen service: :http, handler: IODINE_APP_HANDLER unless Pry.instance_variable_get(:@cli)
+  Iodine.listen service: :http, handler: IODINE_APP_HANDLER # unless Pry.instance_variable_get(:@cli)
   Iodine.workers = IODINE_WORKER_COUNT
   Iodine.threads = IODINE_THREAD_COUNT
   Iodine.verbosity = IODINE_DEBUG_VERBOSITY
