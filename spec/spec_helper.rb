@@ -39,5 +39,6 @@ RSpec.configure do |config|
   end
   # config.after :all do
   #   Mongoid.default_client # error -->.drop
+  #   ? or Mongoid.client('default').collections.last.drop
   # end
 end

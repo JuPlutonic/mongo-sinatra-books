@@ -56,7 +56,7 @@ windows:
         - org_mns:
           - nvim +e ~/Documents/mns.dotoo
         - dbg_mns:
-          - rbenv exec bundle exec pry -I . --exec 'load "server.rb"'
+          - rbenv exec bundle exec pry -I . --exec 'load "lib/server.rb"'
   - mns_app:
     - overmind connect -s ~/optimiz/mongo-sinatra-books/tmp/dev.sock mns_app
     # (n/w: - overmind -s "0.0.0.0:4321" -S "tcp" mns_app)
