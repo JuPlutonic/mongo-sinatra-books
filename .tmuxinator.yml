@@ -16,9 +16,8 @@ root: ~/optimiz/mongo-sinatra-books
 # on_project_start: command
 
 # Run on project start, the first time
-on_project_first_start: >
-  mkdir -p ~/optimiz/mongo-sinatra-books/tmp
-#:
+# on_project_first_start: command
+
 # Run on project start, after the first time
 # on_project_restart: command
 

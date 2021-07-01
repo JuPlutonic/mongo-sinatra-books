@@ -184,6 +184,3 @@ core
 .reek.yml
 .rubocop.yml
 .rubocop_todo.yml
-
-# Misc. for current project
-!/tmp/.keep

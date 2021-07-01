@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-guard :rspec, cmd: 'bundle exec rspec', all_after_pass: true do
+guard :rspec, cmd: 'bundle exec rspec' do
   require 'guard/rspec/dsl'
   dsl = Guard::RSpec::Dsl.new(self)
 

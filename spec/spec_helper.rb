@@ -6,8 +6,8 @@ ENV['RACK_ENV'] ||= 'test' # <-- Rack:Test
 require 'dotenv'
 Dotenv.load('.env.test')
 require 'rack/test'
-require 'webmock/rspec'
-require 'mocha/api'
+# require 'webmock/rspec'
+# require 'mocha/api'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -26,19 +26,16 @@ RSpec.configure do |config|
 
   config.include Rack::Test::Methods
 
+  # RSpec-Mocks OR Mocha:
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   # https://mocha.jamesmead.org/
-  config.mock_with :mocha
-  config.include Mocha::API
+  # config.mock_with :mocha
+  # config.include Mocha::API
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.before do
     Mongoid.purge!
   end
-  # config.after :all do
-  #   Mongoid.default_client # error -->.drop
-  #   ? or Mongoid.client('default').collections.last.drop
-  # end
 end

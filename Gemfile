@@ -47,7 +47,7 @@ group :test do
   # Capybara aims to simplify the process of integration testing Rack applications, such as Rails, Sinatra or Merb (https://github.com/teamcapybara/capybara)
   # gem 'capybara'
   # Mocking and stubbing library (https://mocha.jamesmead.org)
-  gem 'mocha'
+  # gem 'mocha'
   # Simple testing API built on Rack (http://github.com/rack-test/rack-test)
   gem 'rack-test'
   # rspec-3.9.0 (http://github.com/rspec)
@@ -55,5 +55,5 @@ group :test do
   # Record your test suite's HTTP interactions and replay`em for fast, deterministic, accurate tests. (https://relishapp.com/vcr/vcr/docs)
   # gem 'vcr'
   # Library for stubbing HTTP requests in Ruby. (http://github.com/bblimke/webmock)
-  gem 'webmock'
+  # gem 'webmock'
 end
