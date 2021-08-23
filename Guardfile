@@ -14,6 +14,7 @@ end
 
 guard 'shotgun' do
   watch('lib/server.rb')
-  callback(:run_on_change_begin){ `overmind r -s "$(pwd)"/tmp/dev.sock mns_app` }
-  callback(:run_on_change_begin){ `overmind r -s "$(pwd)"/tmp/dev.sock mns_app` }
+  # restart specified process with Foreman-like Overmind app:
+  callback(:run_on_change_begin) { `overmind r -s "$(pwd)"/tmp/dev.sock mns_app` }
+  callback(:run_on_change_begin) { `overmind r -s "$(pwd)"/tmp/dev.sock mns_app` }
 end

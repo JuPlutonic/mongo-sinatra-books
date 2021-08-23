@@ -1,71 +1,24 @@
-# ./.tmuxinator.yml
-
+---
 name: mongo-sinatra-books
 root: ~/optimiz/mongo-sinatra-books
-# root: <%#= @settings["workspace"] %>
-
-# Optional tmux socket
-# socket_name: foo
-
-# Note that the pre and post options have been deprecated and will be replaced by
-# project hooks.
-
-# Project hooks
-
-# Runs on project start, always
-# on_project_start: command
-
-# Run on project start, the first time
-# on_project_first_start: command
-
-# Run on project start, after the first time
-# on_project_restart: command
-
-# Run on project exit ( detaching from tmux session )
-# on_project_exit: command
-
-# Run on project stop
-# on_project_stop: command
-
-# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-# `rbenv global ..` worked for `nvim +checkhealth` but `prepend_to PATH /home/alessio/.anyenv/envs/rbenv/shims` - didn't work.
 pre_window: >
   promote ~/optimiz/mongo-sinatra-books/.env.development &&
-  rbenv global 2.7.3
-#
-# Pass command line options to tmux. Useful for specifying a different tmux.conf.
-# tmux_options: -f ~/.tmux.mac.conf
-
-# Change the command to call tmux. This can be used by derivatives/wrappers like byobu.
-# tmux_command: byobu
-
-# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
-# startup_window: 1
-
-# Specifies (by index) which pane of the specified window will be selected on project startup. If not set, the first pane is used.
-# startup_pane: 1
-
-# Controls whether the tmux session should be attached to automatically. Defaults to true.
-# attach: false
-
+  rbenv global 2.7.4
 windows:
   - mns_doc:
-      layout:  main-vertical
+      layout: main-vertical
       panes:
         - org_mns:
-          - nvim +e ~/Documents/mns.dotoo
+            - nvim +e ~/Documents/mns.dotoo
         - dbg_mns:
-          - rbenv exec bundle exec pry -I . --exec 'load "lib/server.rb"'
+            - rbenv exec bundle exec pry -I . --exec 'load "lib/server.rb"'
   - mns_app:
-    - overmind connect -s ~/optimiz/mongo-sinatra-books/tmp/dev.sock mns_app
-    # (n/w: - overmind -s "0.0.0.0:4321" -S "tcp" mns_app)
+      - overmind connect -s ~/optimiz/mongo-sinatra-books/tmp/dev.sock mns_app
+      # (n/w: - overmind -s "0.0.0.0:4321" -S "tcp" mns_app)
   - wrk:
       layout: main-vertical
-      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
-      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
-      # synchronize: after
       panes:
         - edt_mns:
-          - nvim +NERDTreeToggle +NERDTreeVCS
+            - nvim +NERDTreeToggle +NERDTreeVCS
         - tdd_mns:
-          - bundle exec env RACK_ENV=test guard
+            - bundle exec env RACK_ENV=test guard
