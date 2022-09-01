@@ -3,7 +3,7 @@ name: mongo-sinatra-books
 root: ~/optimiz/mongo-sinatra-books
 pre_window: >
   promote ~/optimiz/mongo-sinatra-books/.env.development &&
-  rbenv global 2.7.4
+  rbenv global 2.7.6
 windows:
   - mns_doc:
       layout: main-vertical
